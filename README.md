@@ -2,16 +2,37 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### Database
+
+Splitsy uses Postgres. Install it locally (e.g. `brew install postgresql@16` on macOS) and make sure the server is running.
+
+Create a database for development and one for tests:
 
 ```bash
+createdb splitsy_dev
+createdb splitsy_test
+```
+
+Copy `.env` (create it if it doesn't exist) and point it at your databases:
+
+```bash
+DATABASE_URL="postgresql://<user>@localhost:5432/splitsy_dev"
+TEST_DATABASE_URL="postgresql://<user>@localhost:5432/splitsy_test"
+```
+
+Apply migrations to the dev database:
+
+```bash
+npx prisma migrate dev
+```
+
+The test database doesn't need migrations run against it — `src/test/database.ts` creates the schema on first use.
+
+### Development server
+
+```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

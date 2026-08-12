@@ -4,7 +4,7 @@ Read this file before every task. If anything below conflicts with my prompt, as
 
 ## Stack
 
-Next.js (App Router) + TypeScript + Prisma + SQLite + Tailwind + Vitest. Nothing else.
+Next.js (App Router) + TypeScript + Prisma + Postgres + Tailwind + Vitest. Nothing else.
 
 ## Money
 
