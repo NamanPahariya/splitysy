@@ -39,6 +39,34 @@ export async function createTestDatabase(): Promise<PrismaClient> {
   await prisma.$executeRawUnsafe(
     'CREATE INDEX "Session_expiresAt_idx" ON "Session"("expiresAt")',
   );
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE "Group" (
+      "id" TEXT NOT NULL PRIMARY KEY,
+      "name" TEXT NOT NULL,
+      "creatorId" TEXT NOT NULL,
+      "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "Group_creatorId_fkey" FOREIGN KEY ("creatorId")
+        REFERENCES "Account" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    )
+  `);
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX "Group_creatorId_idx" ON "Group"("creatorId")',
+  );
+  await prisma.$executeRawUnsafe(`
+    CREATE TABLE "GroupMember" (
+      "groupId" TEXT NOT NULL,
+      "accountId" TEXT NOT NULL,
+      "joinedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY ("groupId", "accountId"),
+      CONSTRAINT "GroupMember_groupId_fkey" FOREIGN KEY ("groupId")
+        REFERENCES "Group" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+      CONSTRAINT "GroupMember_accountId_fkey" FOREIGN KEY ("accountId")
+        REFERENCES "Account" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    )
+  `);
+  await prisma.$executeRawUnsafe(
+    'CREATE INDEX "GroupMember_accountId_idx" ON "GroupMember"("accountId")',
+  );
 
   return prisma;
 }
