@@ -1,0 +1,25 @@
+name: Codex CI Demo
+
+on:
+push:
+branches:
+- main
+
+jobs:
+codex-demo:
+runs-on: ubuntu-latest
+
+```
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v5
+
+  - name: Install Codex CLI
+    run: npm install -g @openai/codex
+
+  - name: Run Codex
+    env:
+      CODEX_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    run: |
+      codex exec "Read package.json and tell me the project name and available scripts. Keep the answer under 3 lines."
+```
