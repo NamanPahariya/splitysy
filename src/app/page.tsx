@@ -27,7 +27,7 @@ export default async function Home() {
   const groups = await listGroupsForAccount(session.accountId);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-10 text-slate-950">
+    <main className="flex-1 bg-slate-50 px-4 py-10 text-slate-950">
       <div className="mx-auto max-w-5xl">
         <header className="flex items-center justify-between gap-4">
           <p className="text-lg font-bold tracking-tight text-indigo-700">

@@ -37,7 +37,7 @@ export default async function GroupPage({ params }: GroupPageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-10 text-slate-950">
+    <main className="flex-1 bg-slate-50 px-4 py-10 text-slate-950">
       <div className="mx-auto max-w-4xl">
         <header className="flex items-center justify-between gap-4">
           <Link

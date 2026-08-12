@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12 text-slate-950">
+    <main className="flex flex-1 items-center justify-center bg-slate-50 px-4 py-12 text-slate-950">
       <section className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <p className="text-sm font-bold uppercase tracking-[0.2em] text-indigo-700">
           Splitsy
