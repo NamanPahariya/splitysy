@@ -11,3 +11,24 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+model Account {
+  id             String    @id @default(cuid())
+  displayName    String
+  email          String    @unique
+  passwordDigest String
+  createdAt      DateTime  @default(now())
+  sessions       Session[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  secretDigest String   @unique
+  accountId    String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  account      Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+  @@index([expiresAt])
+}
