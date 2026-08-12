@@ -13,14 +13,16 @@ datasource db {
 }
 
 model Account {
-  id               String        @id @default(cuid())
-  displayName      String
-  email            String        @unique
-  passwordDigest   String
-  createdAt        DateTime      @default(now())
-  sessions         Session[]
-  createdGroups    Group[]       @relation("GroupCreator")
-  groupMemberships GroupMember[]
+  id                    String               @id @default(cuid())
+  displayName           String
+  email                 String               @unique
+  passwordDigest        String
+  createdAt             DateTime             @default(now())
+  sessions              Session[]
+  createdGroups         Group[]              @relation("GroupCreator")
+  groupMemberships      GroupMember[]
+  expensesPaid          Expense[]            @relation("ExpensePayer")
+  expenseParticipations ExpenseParticipant[]
 }
 
 model Session {
@@ -42,6 +44,7 @@ model Group {
   createdAt DateTime      @default(now())
   creator   Account       @relation("GroupCreator", fields: [creatorId], references: [id], onDelete: Restrict)
   members   GroupMember[]
+  expenses  Expense[]
 
   @@index([creatorId])
 }
@@ -54,5 +57,34 @@ model GroupMember {
   account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   @@id([groupId, accountId])
+  @@index([accountId])
+}
+
+model Expense {
+  id           String               @id @default(cuid())
+  groupId      String
+  payerId      String
+  description  String
+  date         DateTime
+  totalCents   Int
+  createdAt    DateTime             @default(now())
+  group        Group                @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  payer        Account              @relation("ExpensePayer", fields: [payerId], references: [id], onDelete: Restrict)
+  participants ExpenseParticipant[]
+
+  @@index([groupId])
+  @@index([payerId])
+}
+
+model ExpenseParticipant {
+  expenseId  String
+  accountId  String
+  position   Int
+  shareCents Int
+  expense    Expense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  account    Account @relation(fields: [accountId], references: [id], onDelete: Restrict)
+
+  @@id([expenseId, accountId])
+  @@unique([expenseId, position])
   @@index([accountId])
 }

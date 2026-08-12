@@ -88,6 +88,16 @@ export default async function GroupPage({ params }: GroupPageProps) {
           </div>
 
           <div className="mt-8 border-t border-slate-200 pt-8">
+            <h2 className="text-xl font-bold">Expenses</h2>
+            <Link
+              className="mt-3 inline-block font-semibold text-indigo-700 underline-offset-4 hover:underline"
+              href={`/groups/${group.id}/expenses`}
+            >
+              View expenses →
+            </Link>
+          </div>
+
+          <div className="mt-8 border-t border-slate-200 pt-8">
             <h2 className="text-xl font-bold">Add a member</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Enter the email address used for their Splitsy account.
